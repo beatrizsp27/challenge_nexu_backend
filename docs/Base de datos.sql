@@ -68,13 +68,13 @@ INSERT INTO BRANDS (name) VALUES ("Acura");
 SELECT * FROM BRANDS;
 INSERT INTO MODELS (name, brands_id, average_price) VALUES ("ILX", 1, 40000 );
 SELECT * FROM MODELS;
-UPDATE  MODELS SET average_price = 20000 WHERE id = 1;
+UPDATE  MODELS SET average_price = 20000 WHERE id = 2;
 SELECT * FROM MODELS;
+
 
 SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b
 INNER JOIN MODELS m
 ON average_price between 20000 and 40000;
-
 
 
 show databases;

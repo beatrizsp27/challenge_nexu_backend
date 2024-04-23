@@ -41,13 +41,13 @@
 - Obtener todas las marcas
    - GET http://localhost:3001/api/brands  HTTP/1.1
 - Obtener todas las modelos
-   - GET http://localhost:3001/api/brands  HTTP/1.1
-- Obtener el modelo mediante id de la marca
-   - GET http://localhost:3001/api/brands/:id/models HTTP/1.1
+   - GET http://localhost:3001/api/brands/:id/models  HTTP/1.1
+- Obtener el modelo y obtener mediante filtros greater y lower
+   - GET http://localhost:3001/api/models HTTP/1.1
 - Guardar una marca
    - POST http://localhost:3001/api/brands HTTP/1.1
  - Guardar el modelo mediante id de la marca
-   - POST http://localhost:3001/api/brands/:id/models HTTP/1.1
+   - POST http://localhost:3001/api/brands/:id/models HTTP/11
  - Actualizar modelo mediante id
    - POST http://localhost:3001/api/models/:id HTTP/1.1
 
@@ -61,4 +61,16 @@
 ## Autores del proyecto
 
 - Beatriz Herández Hernández - Desarrollador FrontEnd
+
+##Notas
+No me alcanzo el tiempo para insertar los registros del JSON pero pensaba exponer un servicio para recibir el arreglo que es el que tenía el JSON, el servicio tendría la funcionalidad primero de almacenar la marca debido a que en el json se repiten se pondria una validación de que si ya se almaceno ese nombre no lo almacene hasta que encuentre uno diferente y después de terminar de guardar todas las marcar realizar la búsqueda en el json por marcar para almacenar su modelo y así realizar la relación.
+
+la otra era realizar los insert a mano pero eso sí llevaría más tiempo
+
+Ele ejercicio me pareció muy interesante, yo me tarde un poco más debido a que tuve que ambientar mi equipo de cómputo realizando la instalación de mysql y actualización de herramientas de desarrollo node js, git.
+
+alcance a exponer los servicios locales, con conexión a la base de datos, si tubiera mas tiempo me gustaría reforzar mis pruebas unitarias y validar bien la funcionalidad de los servicios REST ya que solo se realiza lo basico asi como el negocio en la capa del modelo, ya que me falto poner mas validaciones
+
+
+
  

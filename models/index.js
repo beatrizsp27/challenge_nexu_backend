@@ -59,6 +59,8 @@ export const getModelsById = (id) =>{
 
 export const getModels = (greater, lower ) => {
 
+      let listModels = [];
+
       let models = "SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b INNER JOIN MODELS m "
 
       if(greater && lower ){
@@ -82,10 +84,11 @@ export const getModels = (greater, lower ) => {
           throw error
         }else{
           console.log(result)
-          return result
+          listModels = result
         }
       });
   
+      return listModels
 };
 
 
@@ -185,6 +188,8 @@ export const updateModels = (model, id) => {
 //saveBrands({name :'prueba 7'})
 //saveModelsById({name:"prueba de modelo", average_price: "20000"}, 2)
 //updateModels({name:"prueba de modelo", average_price: "20000"}, 2)
+
+//cierre de conexion
 connection.end();
 
 

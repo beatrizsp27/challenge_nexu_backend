@@ -4,7 +4,7 @@ import { connection } from '../../bd/conexion.js';
 /**PRUEBAS UNITARIAS DE LA BASE DE DATOS */
 describe('Conexion a base de datos' , () =>{  
 
-    /**test('Deberia dar un error de conexion', async ()=>{
+    test('Deberia dar un error de conexion', async ()=>{
         let errorConecction  = null;
         //SE ABRE LA CONEXION A LA BASE DE DATOS 
         await connection.connect(function(error){
@@ -17,11 +17,13 @@ describe('Conexion a base de datos' , () =>{
             }
         })
         
-        //SE FINALIZA LA CONEXION
-        connection.end()
+     
         if(errorConecction){
             expect(errorConecction).toBe(errorConecction);
         }
-    });**/
+
+        //SE FINALIZA LA CONEXION
+        connection.end()
+    });
 
 });

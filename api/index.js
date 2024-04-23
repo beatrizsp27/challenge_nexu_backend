@@ -100,10 +100,10 @@ appExpress.post('/api/brands', (request, response) => {
             error: 'El nombre no debe ser nullo o vacio'
         });
     }
-  
 
     try{
 
+        //SE ALMACENA MARCAS
         const message = saveBrands(brand)
 
        //SE ENVIA UNA RESPUESTA EXITOSA EN CASO DE QUE HAYA SIDO AGREGADA CORRECTAMENTE
@@ -151,7 +151,6 @@ appExpress.post('/api/brands', (request, response) => {
             error: 'El identificador no debe ser nulo o vacio'
         });
     }
-
   
     try{
 
@@ -239,7 +238,6 @@ appExpress.get('/api/models', async (request, response) =>{
     }
    
 });
-
 
 
 export default appExpress;
