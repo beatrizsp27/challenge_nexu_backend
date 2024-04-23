@@ -49,7 +49,7 @@
  - Guardar el modelo mediante id de la marca
    - POST http://localhost:3001/api/brands/:id/models HTTP/11
  - Actualizar modelo mediante id
-   - POST http://localhost:3001/api/models/:id HTTP/1.1
+   - UPDATE http://localhost:3001/api/models/:id HTTP/1.1
 
 ## Ejecución de pruebas unitarias
 
