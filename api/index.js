@@ -218,8 +218,12 @@ appExpress.post('/api/brands', (request, response) => {
 
 /**OBTENER MODELOS MEDIANTE EL ID DE LA MARCA */
 appExpress.get('/api/models', async (request, response) =>{
+
+    let greater = request.query.greater;
+    let lower = request.query.lower;
+
     try{
-        const models = getModels();
+        const models = getModels(greater, lower);
         console.log(models);
         response.json({
             success: true,
