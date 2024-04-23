@@ -15,16 +15,19 @@
 - npm (versión 6.14.10)
 - Visual Studio Code (versión: 1.45.1)
 - Sistema operativo en Windows 10
+- mysql server
 
 ## Estructura de carpetas del proyecto
 
 - challengue_backend
-    -	**model** (Clases donde se consulta los servicios)
+    -	**model** (Clases donde se obtienen los datos de la base de datos)
+    -	**bd** (Clases donde se tiene la conexion a base de datos)
+    -	**docs** (archivo que contiene los archivos de base de datos)
     -	**service** (Clases de llamadas y consultas de Servicios REST)
     -	**test** (Contiene pruebas unitarias)
     -	**utilerias** (Constantes, valores, propiedades que serán utilizados en cualquier parte del código fuente)
     -	**request** (Archivos de pruebas de API (Para ejecutarlo es necesario tener visual studio code y REST Client v0.25.0 instalado)
-    -   **index** (archivo que contiene las estructura de las APIS)
+    - **index** (archivo que contiene las estructura de las APIS)
 
 
 ## Despliegue de proyecto

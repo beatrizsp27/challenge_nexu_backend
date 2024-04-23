@@ -1,7 +1,7 @@
 //importamos express
 import express from 'express';
 import path from 'path';
-import { getBrands, getModelsById, getModels, saveBrands } from '../models/index.js';
+import { getBrands, getModelsById, getModels, updateModels, saveBrands } from '../models/index.js';
 
 //se manda a llamar la funcion de espress
 const appExpress = express();
@@ -108,10 +108,13 @@ appExpress.post('/api/brands', (request, response) => {
 
   
     try{
+
+        const message = saveBrands(brand)
+
        //SE ENVIA UNA RESPUESTA EXITOSA EN CASO DE QUE HAYA SIDO AGREGADA CORRECTAMENTE
         response.send({
             success: true,
-            message: 'New user was added to the list',
+            message: message,
         });
     }catch(e){
         console.log('error '+ JSON.stringify(e));
@@ -128,10 +131,12 @@ appExpress.post('/api/brands', (request, response) => {
     //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
     const brand = request.body;
     console.log(brand);
+    const id = request.params.id;
+    console.log(id)
   
     try{
 
-        const message =  saveBrands(brand);
+        const message =  saveModelsById(brand. id);
        //SE ENVIA UNA RESPUESTA EXITOSA EN CASO DE QUE HAYA SIDO AGREGADA CORRECTAMENTE
         response.send({
             success: true,
@@ -152,12 +157,15 @@ appExpress.post('/api/brands', (request, response) => {
        //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
        const brand = request.body;
        console.log(brand);
+       const id = request.params.id;
+       console.log(id)
 
        try{
+        const message = updateModels(brand, id)
         //SE ENVIA UNA RESPUESTA EXITOSA EN CASO DE QUE HAYA SIDO ACTUALIZADO CORRECTAMENTE
          response.send({
              success: true,
-             message: 'New user was added to the list',
+             message: message,
          });
      }catch(e){
          console.log('error '+ JSON.stringify(e));

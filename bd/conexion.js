@@ -4,7 +4,7 @@ let connection = mysql.createConnection({
     host: "localhost",
     database: "vehicles",
     user: "root",
-    password: ""
+    password: "1234"
 });
 
 const endConexion = () =>{
