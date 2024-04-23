@@ -84,7 +84,7 @@ appExpress.get('/api/brands/:id/models', async (request, response) =>{
    
 });
 
-app.post('/api/brands', (request, response) => {
+appExpress.post('/api/brands', (request, response) => {
 
     //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
     const brand = request.body;
@@ -106,7 +106,7 @@ app.post('/api/brands', (request, response) => {
     }
   });
 
-  app.post('/api/brands/:id/models', (request, response) => {
+  appExpress.post('/api/brands/:id/models', (request, response) => {
 
     //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
     const brand = request.body;
@@ -129,7 +129,7 @@ app.post('/api/brands', (request, response) => {
   });
 
 
-  app.put('/api/brands/:id', (request, response)=>{
+  appExpress.put('/api/brands/:id', (request, response)=>{
        //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
        const brand = request.body;
        console.log(brand);

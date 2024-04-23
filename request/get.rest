@@ -1,0 +1,17 @@
+##Obtener todas las marcas
+GET http://localhost:3001/api/brands HTTP/1.1
+
+##Obtener todas las modelos
+GET http://localhost:3001/api/brands HTTP/1.1
+
+##Obtener el modelo mediante id de la marca
+GET http://localhost:3001/api/brands/:id/models HTTP/1.1
+
+##Guardar una marca
+POST http://localhost:3001/api/brands HTTP/1.1
+
+##Guardar el modelo mediante id de la marca
+POST http://localhost:3001/api/brands/:id/models HTTP/1.1
+
+##Actualizar modelo mediante id
+POST http://localhost:3001/api/models/:id HTTP/1.1
