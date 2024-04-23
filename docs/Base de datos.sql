@@ -25,7 +25,6 @@ DROP TABLE IF EXISTS `catalogs`.`brands` ;
 CREATE TABLE IF NOT EXISTS `catalogs`.`brands` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `average_price` FLOAT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `nombre_UNIQUE` (`name` ASC) VISIBLE)
@@ -56,9 +55,27 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b
+INNER JOIN MODELS m;
 
-SELECT * FROM BRANDS;
+SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b
+INNER JOIN MODELS m
+ON brands_id = 1;
+
 SELECT * FROM MODELS;
-SELECT * FROM MODEL WHERE ID = 1;
+SELECT * FROM MODELS WHERE ID = 1;
+INSERT INTO BRANDS (name) VALUES ("Acura"); 
+SELECT * FROM BRANDS;
+INSERT INTO MODELS (name, brands_id, average_price) VALUES ("ILX", 1, 40000 );
+SELECT * FROM MODELS;
+UPDATE  MODELS SET average_price = 20000 WHERE id = 1;
+SELECT * FROM MODELS;
 
+SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b
+INNER JOIN MODELS m
+ON average_price between 20000 and 40000;
+
+
+
+show databases;
 

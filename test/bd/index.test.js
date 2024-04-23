@@ -9,7 +9,7 @@ describe('Conexion a base de datos' , () =>{
         //SE ABRE LA CONEXION A LA BASE DE DATOS 
         await connection.connect(function(error){
             if(error){
-                //console.log("error " + error)
+                console.log("error de conexion " + error)
                 errorConecction = error
                 throw error;
                 
@@ -20,7 +20,9 @@ describe('Conexion a base de datos' , () =>{
         
         //SE FINALIZA LA CONEXION
         connection.end()
-        expect(errorConecction).toBe(errorConecction);
+        if(errorConecction){
+            expect(errorConecction).toBe(errorConecction);
+        }
     });
 
     

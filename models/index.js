@@ -3,26 +3,47 @@ import { connection } from "../bd/conexion"
 export const getBrands = () =>{
 
       //SE REALIZA LA CONSULTA A LA BASE DE DATOS
-    let brands = "SELECT * FROM brands";
+    let brands = "SELECT * FROM BRANDS";
    
     //SE VALIDA LA CONEXION A LA BASE DE DATOS Y VALIDAR QUE SE REALIZO EL ALMACENAMIENTO
-    connection.query(getBrandsBd, error =>{
+    connection.query(brands, error =>{
       if(error){
         throw error
       }else{
-        return marcas
+        return brands
       }
     });
 
 }
 
+
+/**
+ * Obtener todas las marcas y modelos
+ */
+export const getBrandsAndModelsById = (id) =>{
+
+    //SE REALIZA LA CONSULTA A LA BASE DE DATOS
+    let brandsAndModels = "SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b INNER JOIN MODELS m ON brands_id = '"+id+"'";
+
+    //SE VALIDA LA CONEXION A LA BASE DE DATOS Y VALIDAR QUE SE REALIZO EL ALMACENAMIENTO
+    connection.query(brandsAndModels, error =>{
+      if(error){
+        throw error
+      }else{
+        return brandsAndModels
+      }
+    });
+}
+
+
+
 export const getModelsById = (id) =>{
 
       //SE REALIZA LA CONSULTA A LA BASE DE DATOS
-    let models = "SELECT * FROM models WHERE id = '"+id+"'";
+    let models = "SELECT * FROM MODELS WHERE id = '"+id+"'";
    
     //SE VALIDA LA CONEXION A LA BASE DE DATOS Y VALIDAR QUE SE REALIZO EL ALMACENAMIENTO
-    connection.query(getBrandsBd, error =>{
+    connection.query(models, error =>{
       if(error){
         throw error
       }else{
@@ -32,13 +53,27 @@ export const getModelsById = (id) =>{
 
 }
 
-export const getModels = () => {
 
-      //SE REALIZA LA CONSULTA A LA BASE DE DATOS
-      let models = "SELECT * FROM models";
+export const getModels = (greater, lower ) => {
+
+      let models = "SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b INNER JOIN MODELS m"
+
+      if(greater && lower ){
+         //SE REALIZA LA CONSULTA A LA BASE DE DATOS
+         models = " ON average_price between '"+lower+"' and '"+greater+"'"
+      }
+
+      if(greater){
+        models = " ON average_price = '"+lower+"'"
+      }
+
+      if(lower){
+         models = " ON average_price = '"+greater+"'"
+      }
+
    
       //SE VALIDA LA CONEXION A LA BASE DE DATOS Y VALIDAR QUE SE REALIZO EL ALMACENAMIENTO
-      connection.query(getBrandsBd, error =>{
+      connection.query(models, error =>{
         if(error){
           throw error
         }else{
@@ -47,6 +82,7 @@ export const getModels = () => {
       });
   
 };
+
 
 
 export const saveBrands = (brand) => {
@@ -62,7 +98,7 @@ export const saveBrands = (brand) => {
     }
  
     //SE REALIZA LA CONSULTA A LA BASE DE DATOS
-    let save = "INSER INTO brands (name, average_price) VALUES ('"+name+"', '"+average_price+"')";
+    let save = "INSER INTO BRANDS (name) VALUES ('"+name+"')";
    
     //SE VALIDA LA CONEXION A LA BASE DE DATOS Y VALIDAR QUE SE REALIZO EL ALMACENAMIENTO
     connection.query(save, error =>{
@@ -76,6 +112,7 @@ export const saveBrands = (brand) => {
   // EN CASO DE QUE TODO HAYA FUNCIONADO BIEN SE RETORNA UN MENSAGE DE EXITO
   return message
 }
+
 
 export const saveModelsById = (model, id) => {
 
@@ -91,7 +128,7 @@ export const saveModelsById = (model, id) => {
     }
 
     //SE REALIZA LA CONSULTA A LA BASE DE DATOS
-    let save = "INSER INTO brands (name, average_price) VALUES ('"+name+"', '"+average_price+"') WHERE id = '"+id+"";
+    let save = "INSER INTO MODELS (name, brands_id, average_price) VALUES ('"+name+"', '"+id+"', '"+average_price+"')";
  
   
     //SE VALIDA LA CONEXION A LA BASE DE DATOS Y VALIDAR QUE SE REALIZO EL ALMACENAMIENTO
@@ -106,7 +143,8 @@ export const saveModelsById = (model, id) => {
   // EN CASO DE QUE TODO HAYA FUNCIONADO BIEN SE RETORNA UN MENSAGE DE EXITO
    return message
 
-}
+};
+
 
 export const updateModels = (model, id) => {
 
@@ -122,7 +160,7 @@ export const updateModels = (model, id) => {
     }
 
     //SE REALIZA LA CONSULTA A LA BASE DE DATOS
-    let save = "UPDATE brands ( average_price) VALUES ( '"+average_price+"') WHERE id = '"+id+"";
+    let save = "UPDATE MODELS average_price = '"+average_price+"' WHERE id = '"+id+"";
  
   
     //SE VALIDA LA CONEXION A LA BASE DE DATOS Y VALIDAR QUE SE REALIZO EL ALMACENAMIENTO
@@ -136,7 +174,6 @@ export const updateModels = (model, id) => {
    
   // EN CASO DE QUE TODO HAYA FUNCIONADO BIEN SE RETORNA UN MENSAGE DE EXITO
    return message
-
 }
 
 

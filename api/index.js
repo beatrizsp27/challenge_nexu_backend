@@ -1,7 +1,7 @@
 //importamos express
 import express from 'express';
 import path from 'path';
-import { getBrands, getModelsById, getModels, updateModels, saveBrands } from '../models/index.js';
+import { getBrands, getBrandsAndModelsById, getModels, updateModels, saveBrands, saveModelsById } from '../models/index.js';
 
 //se manda a llamar la funcion de espress
 const appExpress = express();
@@ -67,7 +67,7 @@ appExpress.get('/api/brands/:id/models', async (request, response) =>{
     }
 
     try{
-        const models = getModelsById(id);
+        const models = getBrandsAndModelsById(id);
         console.log(models);
         response.json({
             success: true,
@@ -84,6 +84,8 @@ appExpress.get('/api/brands/:id/models', async (request, response) =>{
    
 });
 
+
+/*** GUARDAR MARCA */
 appExpress.post('/api/brands', (request, response) => {
 
     //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
@@ -99,14 +101,7 @@ appExpress.post('/api/brands', (request, response) => {
         });
     }
   
-    if(brand.average_price === null || brand.average_price === undefined || brand.average_price.trim() === ""){
-        response.status(400).json({
-            title: 'Error',
-            error: 'El precio no debe ser nullo o vacio'
-        });
-    }
 
-  
     try{
 
         const message = saveBrands(brand)
@@ -126,13 +121,37 @@ appExpress.post('/api/brands', (request, response) => {
     }
   });
 
+  /**GUARDAR MODELOS */
   appExpress.post('/api/brands/:id/models', (request, response) => {
 
     //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
-    const brand = request.body;
-    console.log(brand);
+    const models = request.body;
+    console.log(models);
     const id = request.params.id;
     console.log(id)
+
+    //SE VALIDA QUE EL PRECIO SEA MAYOR A 100.000 EN CASO DE QUE NO SE LE NOTIFICARA AL USUARIO
+    if(models.name === null || models.name === undefined || models.name.trim() === ""){
+        response.status(400).json({
+            title: 'Error',
+            error: 'El nombre no debe ser nullo o vacio'
+        });
+    }
+
+    if(models.average_price === null || models.average_price === undefined || models.average_price.trim() === ""){
+        response.status(400).json({
+            title: 'Error',
+            error: 'El precio no debe ser nullo o vacio'
+        });
+    }
+
+    if( id === null ||id === undefined || id.trim() === ""){
+        response.status(400).json({
+            title: 'Error',
+            error: 'El identificador no debe ser nulo o vacio'
+        });
+    }
+
   
     try{
 
@@ -153,14 +172,31 @@ appExpress.post('/api/brands', (request, response) => {
   });
 
 
-  appExpress.put('/api/brands/:id', (request, response)=>{
+  //ACTUALIZAR MODELO**/
+  appExpress.put('/api/models/:id', (request, response)=>{
        //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
-       const brand = request.body;
-       console.log(brand);
+       const model = request.body;
+       console.log(model);
        const id = request.params.id;
        console.log(id)
 
+       
+       if( id === null ||id === undefined || id.trim() === ""){
+            response.status(400).json({
+                title: 'Error',
+                error: 'El identificador no debe ser nulo o vacio'
+            });
+        }
+
+        if(model.average_price === null || model.average_price === undefined || model.average_price.trim() === ""){
+            response.status(400).json({
+                title: 'Error',
+                error: 'El precio no debe ser nullo o vacio'
+            });
+        }
+
        try{
+        
         const message = updateModels(brand, id)
         //SE ENVIA UNA RESPUESTA EXITOSA EN CASO DE QUE HAYA SIDO ACTUALIZADO CORRECTAMENTE
          response.send({

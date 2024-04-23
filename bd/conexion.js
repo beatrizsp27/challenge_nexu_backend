@@ -2,7 +2,7 @@ import mysql from 'mysql';
 
 let connection = mysql.createConnection({
     host: "localhost",
-    database: "vehicles",
+    database: "catalogs",
     user: "root",
     password: "1234"
 });
