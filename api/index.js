@@ -39,8 +39,9 @@ appExpress.get('/', (request, response) =>{
 
 /**OBTENER MARCAS */
 appExpress.get('/api/brands', async (request, response) =>{
+    console.log("ontener marcas")
     try{
-        const brands = getBrands();
+        const brands = await getBrands();
         console.log(brands);
         response.json({
             success: true,
@@ -67,7 +68,7 @@ appExpress.get('/api/brands/:id/models', async (request, response) =>{
     }
 
     try{
-        const models = getBrandsAndModelsById(id);
+        const models = await getBrandsAndModelsById(id);
         console.log(models);
         response.json({
             success: true,
@@ -86,7 +87,7 @@ appExpress.get('/api/brands/:id/models', async (request, response) =>{
 
 
 /*** GUARDAR MARCA */
-appExpress.post('/api/brands', (request, response) => {
+appExpress.post('/api/brands', async (request, response) => {
 
     //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
     const brand = request.body;
@@ -122,7 +123,7 @@ appExpress.post('/api/brands', (request, response) => {
   });
 
   /**GUARDAR MODELOS */
-  appExpress.post('/api/brands/:id/models', (request, response) => {
+  appExpress.post('/api/brands/:id/models', async (request, response) => {
 
     //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
     const models = request.body;
@@ -154,7 +155,7 @@ appExpress.post('/api/brands', (request, response) => {
   
     try{
 
-        const message =  saveModelsById(brand. id);
+        const message =  await saveModelsById(brand. id);
        //SE ENVIA UNA RESPUESTA EXITOSA EN CASO DE QUE HAYA SIDO AGREGADA CORRECTAMENTE
         response.send({
             success: true,
@@ -172,7 +173,7 @@ appExpress.post('/api/brands', (request, response) => {
 
 
   //ACTUALIZAR MODELO**/
-  appExpress.put('/api/models/:id', (request, response)=>{
+  appExpress.put('/api/models/:id',async (request, response)=>{
        //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
        const model = request.body;
        console.log(model);
@@ -196,7 +197,7 @@ appExpress.post('/api/brands', (request, response) => {
 
        try{
         
-        const message = updateModels(brand, id)
+        const message = await updateModels(brand, id)
         //SE ENVIA UNA RESPUESTA EXITOSA EN CASO DE QUE HAYA SIDO ACTUALIZADO CORRECTAMENTE
          response.send({
              success: true,
@@ -222,7 +223,7 @@ appExpress.get('/api/models', async (request, response) =>{
     let lower = request.query.lower;
 
     try{
-        const models = getModels(greater, lower);
+        const models = await getModels(greater, lower);
         console.log(models);
         response.json({
             success: true,

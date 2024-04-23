@@ -1,93 +1,126 @@
 import { connection, openConnection } from "../bd/conexion.js"
+import util from 'util'
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 openConnection();
+// node native promisify
+const query = util.promisify(connection.query).bind(connection); 
 
 export const getBrands = async () =>{
   console.log("getBrands")
-
-    let brandsList = [];
+  let brandsList = [];
+   
+  try{
       //SE REALIZA LA CONSULTA A LA BASE DE DATOS
-    let brands = "SELECT * FROM BRANDS";
-    try{
-
+      let brands = "SELECT * FROM BRANDS";
       //SE VALIDA LA CONEXION A LA BASE DE DATOS Y VALIDAR QUE SE REALIZO EL ALMACENAMIENTO
-      connection.query(brands, function (err, result, fields) {
-        if (err) throw err;
-        console.log(result);
-        brandsList = result
-      });
-      
+      const rows = await query(brands);
+      console.log(JSON.stringify(rows));
+      brandsList = rows
     }catch(e){
       console.log(e)
       throw e
+    } finally {
+      console.log("finally")
+      //connection.end();
     }
-    console.log("fin:::::::::" + brandsList)
-    return brandsList
+  return brandsList
 
 }
 
 /**
  * Obtener todas las marcas y modelos
  */
-export const getBrandsAndModelsById = (id) =>{
+export const getBrandsAndModelsById = async (id) =>{
+  let modelAndBrand = [];
 
-    //SE REALIZA LA CONSULTA A LA BASE DE DATOS
-    let brandsAndModels = "SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b INNER JOIN MODELS m ON brands_id = '"+id+"'";
+      try{
+        //SE REALIZA LA CONSULTA A LA BASE DE DATOS
+        let brandsAndModels = "SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b INNER JOIN MODELS m ON brands_id = '"+id+"'";
+        const rows = await query(brandsAndModels);
+        modelAndBrand =  rows
+      }catch(e){
+        console.log(e)
+        throw e
+      }finally {
+        console.log("finally")
+        connection.end();
+      }
 
-    connection.query(brandsAndModels, function (err, result, fields) {
-      if (err) throw err;
-      console.log(result);
-      return result
-    
-    });
+   return modelAndBrand
+  
 }
 
 
-export const getModelsById = (id) =>{
+export const getModelsById = async (id) =>{
 
+    let modelsList = [];
       //SE REALIZA LA CONSULTA A LA BASE DE DATOS
-    let models = "SELECT * FROM MODELS WHERE id = '"+id+"'";
     connection.query(models, function (err, result, fields) {
       if (err) throw err;
       console.log(result);
       return result
     });
+
+    try{
+      //SE REALIZA LA CONSULTA A LA BASE DE DATOS
+      let models = "SELECT * FROM MODELS WHERE id = '"+id+"'";
+      const rows = await query(models);
+      modelsList =  rows
+
+    }catch(e){
+      console.log(e)
+      connection.end();
+      throw e
+    }finally {
+      console.log("finally")
+      connection.end();
+    }
+
+    return modelsList
 }
 
 
 
 
-export const getModels = (greater, lower ) => {
+export const getModels = async (greater, lower ) => {
 
       let listModels = [];
 
-      let models = "SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b INNER JOIN MODELS m "
+      try{
 
-      if(greater && lower ){
-         //SE REALIZA LA CONSULTA A LA BASE DE DATOS
-         models = models + " ON average_price between '"+lower+"' and '"+greater+"'"
-      }else{
+        let models = "SELECT b.id, b.name, m.name, m.average_price  FROM BRANDS b INNER JOIN MODELS m "
 
-        if(greater){
-          models = models +  "WHERE m.average_price = '"+lower+"'"
-        }
-  
-        if(lower){
-           models = models + "WHERE m.average_price = '"+greater+"'"
-        }
-      }
-
-
-      //SE VALIDA LA CONEXION A LA BASE DE DATOS Y VALIDAR QUE SE REALIZO EL ALMACENAMIENTO
-      connection.query(models, (error, result) =>{
-        if(error){
-          throw error
+        if(greater && lower ){
+           //SE REALIZA LA CONSULTA A LA BASE DE DATOS
+           models = models + " ON average_price between '"+lower+"' and '"+greater+"'"
         }else{
-          console.log(result)
-          listModels = result
-        }
-      });
   
+          if(greater){
+            models = models +  "WHERE m.average_price = '"+lower+"'"
+          }
+    
+          if(lower){
+             models = models + "WHERE m.average_price = '"+greater+"'"
+          }
+        }
+
+        //SE REALIZA LA CONSULTA A LA BASE DE DATOS
+        const rows = await query(models);
+        listModels =  rows
+  
+      }catch(e){
+        console.log(e)
+        throw e
+      }finally {
+        console.log("finally")
+        connection.end();
+      }
       return listModels
 };
 
@@ -95,7 +128,7 @@ export const getModels = (greater, lower ) => {
 
 
 
-export const saveBrands = (brand) => {
+export const saveBrands = async (brand) => {
     let name = brand.name;
     let message = null;
 
@@ -116,7 +149,7 @@ export const saveBrands = (brand) => {
 }
 
 
-export const saveModelsById = (model, id) => {
+export const saveModelsById = async (model, id) => {
 
   let name = model.name;
     let price = model.average_price;
@@ -149,7 +182,7 @@ export const saveModelsById = (model, id) => {
 
 
 
-export const updateModels = (model, id) => {
+export const updateModels = async (model, id) => {
 
     let name = model.name;
     let price = model.average_price;
@@ -190,7 +223,7 @@ export const updateModels = (model, id) => {
 //updateModels({name:"prueba de modelo", average_price: "20000"}, 2)
 
 //cierre de conexion
-connection.end();
+//connection.end();
 
 
 
