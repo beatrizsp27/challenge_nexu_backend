@@ -1,7 +1,7 @@
 //importamos express
 import express from 'express';
 import path from 'path';
-import { getBrands, getModelsById, getModels } from '../models/index.js';
+import { getBrands, getModelsById, getModels, saveBrands } from '../models/index.js';
 
 //se manda a llamar la funcion de espress
 const appExpress = express();
@@ -89,6 +89,23 @@ appExpress.post('/api/brands', (request, response) => {
     //SE OBTIENE LA DATA QUE EL USUARIO AGREGO
     const brand = request.body;
     console.log(brand);
+
+
+    //SE VALIDA QUE EL PRECIO SEA MAYOR A 100.000 EN CASO DE QUE NO SE LE NOTIFICARA AL USUARIO
+    if(brand.name === null || brand.name === undefined || brand.name.trim() === ""){
+        response.status(400).json({
+            title: 'Error',
+            error: 'El nombre no debe ser nullo o vacio'
+        });
+    }
+  
+    if(brand.average_price === null || brand.average_price === undefined || brand.average_price.trim() === ""){
+        response.status(400).json({
+            title: 'Error',
+            error: 'El precio no debe ser nullo o vacio'
+        });
+    }
+
   
     try{
        //SE ENVIA UNA RESPUESTA EXITOSA EN CASO DE QUE HAYA SIDO AGREGADA CORRECTAMENTE
@@ -113,10 +130,12 @@ appExpress.post('/api/brands', (request, response) => {
     console.log(brand);
   
     try{
+
+        const message =  saveBrands(brand);
        //SE ENVIA UNA RESPUESTA EXITOSA EN CASO DE QUE HAYA SIDO AGREGADA CORRECTAMENTE
         response.send({
             success: true,
-            message: 'New user was added to the list',
+            message: message,
         });
     }catch(e){
         console.log('error '+ JSON.stringify(e));
